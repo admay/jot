@@ -45,7 +45,7 @@ pub fn handle(msg: String) -> Result<(), Box<dyn Error>> {
 
     let msg_head: String = "-".repeat(37);
     let ts: String = format!("{}: ", cur_time);
-    let msg_foot: String = "\n".to_owned();
+    let msg_foot: String = "".to_owned();
 
     let mut temp = TinyTemplate::new();
     temp.add_template("message", TEMPLATE)?;
