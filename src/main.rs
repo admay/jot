@@ -1,7 +1,6 @@
 mod down;
 mod create;
 
-use std::env;
 use structopt::StructOpt;
 
 #[derive(StructOpt)]
@@ -26,13 +25,10 @@ enum Jot {
 fn main() -> std::io::Result<()>{
     match Jot::from_args() {
         Jot::Down { message } => {
-            down::handle_post(message)?;
+            down::handle(message)?;
         },
         Jot::Create { dose, wake, mood } => {
-
-        },
-        _ => {
-            println!("Invalid sub command");
+            create::handle(dose, wake, mood)?;
         }
     }
 

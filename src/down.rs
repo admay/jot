@@ -4,7 +4,7 @@ use std::path::Path;
 use std::io::prelude::*;
 use chrono::prelude::*;
 
-pub fn handle_post(msg: String) -> std::io::Result<()> {
+pub fn handle(msg: String) -> std::io::Result<()> {
     let today: &str = &Local::today().format("%Y-%b-%d").to_string();
     let cur_time: &str = &Local::now().format("%H:%M").to_string();
     let journal_dir : &Path = Path::new("/home/michael/workspace/mental-health-home-base/ihaveadhd.github.io/days");
