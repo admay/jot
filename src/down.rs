@@ -66,5 +66,3 @@ pub fn handle(msg: String) -> Result<(), Box<dyn Error>> {
 
     Ok(())
 }
-
-
