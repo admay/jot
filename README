@@ -1,0 +1,7 @@
+CLI to jot notes
+
+Things I need:
+- Config and config reader
+- CLI args and subcommand parsing
+- Handlers for each sub command
+

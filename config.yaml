@@ -1,0 +1,3 @@
+base_dir: &base_dir /home/michael/workspace/mental-health-home-base/ihaveadhd.github.io
+post_dir: !join [*base_dir, /days]
+template_path: !join [*post_dir, /template.txt]
