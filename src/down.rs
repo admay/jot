@@ -1,3 +1,4 @@
+use std::env;
 use std::fs;
 use std::fs::{OpenOptions};
 use std::path::Path;
@@ -7,12 +8,16 @@ use chrono::prelude::*;
 pub fn handle(msg: String) -> std::io::Result<()> {
     let today: &str = &Local::today().format("%Y-%b-%d").to_string();
     let cur_time: &str = &Local::now().format("%H:%M").to_string();
-    let journal_dir : &Path = Path::new("/home/michael/workspace/mental-health-home-base/ihaveadhd.github.io/days");
+
+    let post_dir_str: &str = &env::var("POST_DIR").unwrap();
+    let post_dir: &Path = Path::new(&post_dir_str);
+
     let today_file_name: String = format!("{}.txt", today);
-    let today_file_path: &Path = &journal_dir.join(today_file_name);
-    let template_path: &Path = &journal_dir.join("template.txt");
+    let today_file_path: &Path = &post_dir.join(today_file_name);
 
     if !today_file_path.is_file(){
+        let template_path_str: &str = &env::var("TEMPLATE").unwrap();
+        let template_path: &Path = Path::new(&template_path_str);
         if let Err(e) = fs::copy(template_path, today_file_path) {
             println!("ERROR: Something went wrong creating new file");
             println!("ERROR: {:?}", e);
