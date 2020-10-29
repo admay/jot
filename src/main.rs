@@ -4,6 +4,7 @@ extern crate tinytemplate;
 
 mod create;
 mod down;
+mod view;
 
 use std::env;
 use dotenv::dotenv;
@@ -45,8 +46,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>>{
             create::handle(dose, wake, mood)?;
         },
         Jot::View { date } => {
-            println!("{}", date);
-
+            view::handle(date)?;
         },
         Jot::Conf {} => {
             for (k, v) in env::vars() {
