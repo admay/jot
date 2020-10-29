@@ -1,6 +1,7 @@
 mod create;
 mod down;
 
+use dotenv::dotenv;
 use structopt::StructOpt;
 
 #[derive(StructOpt)]
@@ -23,6 +24,7 @@ enum Jot {
 }
 
 fn main() -> std::io::Result<()> {
+    dotenv().ok();
     match Jot::from_args() {
         Jot::Down { message } => {
             down::handle(message)?;

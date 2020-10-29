@@ -8,5 +8,5 @@ edition = "2018"
 
 [dependencies]
 chrono = "0.4"
-yaml-rust = "0.4"
 structopt = "0.3"
+dotenv = "0.15.0"
