@@ -1,11 +1,24 @@
 use std::env;
 use std::fs;
-use std::fs::{OpenOptions};
 use std::path::Path;
+use std::fs::OpenOptions;
 use std::io::prelude::*;
 use chrono::prelude::*;
 
-pub fn handle(msg: String) -> std::io::Result<()> {
+use std::error::Error;
+use tinytemplate::TinyTemplate;
+
+static TEMPLATE: &'static str = "{header}\n\n{timestamp}{message}\n{footer}";
+
+#[derive(Serialize)]
+struct Context {
+    message: String,
+    header: String,
+    footer: String,
+    timestamp: String,
+}
+
+pub fn handle(msg: String) -> Result<(), Box<dyn Error>> {
     let today: &str = &Local::today().format("%Y-%b-%d").to_string();
     let cur_time: &str = &Local::now().format("%H:%M").to_string();
 
@@ -30,11 +43,21 @@ pub fn handle(msg: String) -> std::io::Result<()> {
         .open(today_file_path)
         .unwrap();
 
-    let msg_head = "-".repeat(37);
-    let ts = format!("{}: ", cur_time);
-    let msg_foot = "\n";
+    let msg_head: String = "-".repeat(37);
+    let ts: String = format!("{}: ", cur_time);
+    let msg_foot: String = "\n".to_owned();
 
-    let formatted_msg = format!("{}\n\n{}{}\n{}", msg_head, ts, msg, msg_foot);
+    let mut temp = TinyTemplate::new();
+    temp.add_template("message", TEMPLATE)?;
+
+    let context = Context {
+        message: msg,
+        header: msg_head,
+        footer: msg_foot,
+        timestamp: ts,
+    };
+
+    let formatted_msg = temp.render("message", &context)?;
 
     if let Err(e) = writeln!(today_file, "{}", formatted_msg) {
         println!("ERROR: Failed to write to {:?}", today_file_path);

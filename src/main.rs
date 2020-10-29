@@ -1,3 +1,7 @@
+#[macro_use]
+extern crate serde_derive;
+extern crate tinytemplate;
+
 mod create;
 mod down;
 
@@ -26,7 +30,7 @@ enum Jot {
     }
 }
 
-fn main() -> std::io::Result<()> {
+fn main() -> Result<(), Box<dyn std::error::Error>>{
     dotenv().ok();
 
     match Jot::from_args() {
