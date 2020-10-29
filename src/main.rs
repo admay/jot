@@ -1,5 +1,5 @@
-mod down;
 mod create;
+mod down;
 
 use structopt::StructOpt;
 
@@ -9,7 +9,7 @@ enum Jot {
     #[structopt(name = "down")]
     Down {
         #[structopt(short, long, help = "Journal entry message")]
-        message: String
+        message: String,
     },
     #[structopt(name = "create")]
     Create {
@@ -18,15 +18,15 @@ enum Jot {
         #[structopt(short, long, help = "Wake up time")]
         wake: String,
         #[structopt(short, long, help = "Wake up mood")]
-        mood: String
-    }
+        mood: String,
+    },
 }
 
-fn main() -> std::io::Result<()>{
+fn main() -> std::io::Result<()> {
     match Jot::from_args() {
         Jot::Down { message } => {
             down::handle(message)?;
-        },
+        }
         Jot::Create { dose, wake, mood } => {
             create::handle(dose, wake, mood)?;
         }
