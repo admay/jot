@@ -1,6 +1,7 @@
 mod create;
 mod down;
 
+use std::env;
 use dotenv::dotenv;
 use structopt::StructOpt;
 
@@ -14,23 +15,31 @@ enum Jot {
     },
     #[structopt(name = "create")]
     Create {
-        #[structopt(short, long, help = "Amount of med being taken")]
+        #[structopt(short, long, help = "Amount of med taken")]
         dose: i8,
         #[structopt(short, long, help = "Wake up time")]
         wake: String,
         #[structopt(short, long, help = "Wake up mood")]
         mood: String,
     },
+    Conf {
+    }
 }
 
 fn main() -> std::io::Result<()> {
     dotenv().ok();
+
     match Jot::from_args() {
         Jot::Down { message } => {
             down::handle(message)?;
         }
         Jot::Create { dose, wake, mood } => {
             create::handle(dose, wake, mood)?;
+        },
+        Jot::Conf {} => {
+            for (k, v) in env::vars() {
+                println!("{}:{}", k, v);
+            }
         }
     }
 
