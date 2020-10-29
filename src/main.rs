@@ -26,6 +26,10 @@ enum Jot {
         #[structopt(short, long, help = "Wake up mood")]
         mood: String,
     },
+    View {
+        #[structopt(short, long, help = "Date of entry to see")]
+        date: String,
+    },
     Conf {
     }
 }
@@ -40,11 +44,15 @@ fn main() -> Result<(), Box<dyn std::error::Error>>{
         Jot::Create { dose, wake, mood } => {
             create::handle(dose, wake, mood)?;
         },
+        Jot::View { date } => {
+            println!("{}", date);
+
+        },
         Jot::Conf {} => {
             for (k, v) in env::vars() {
                 println!("{}:{}", k, v);
             }
-        }
+        },
     }
 
     Ok(())

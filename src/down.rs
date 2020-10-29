@@ -40,6 +40,7 @@ pub fn handle(msg: String) -> Result<(), Box<dyn Error>> {
     let mut today_file = OpenOptions::new()
         .write(true)
         .append(true)
+        .create(true)
         .open(today_file_path)
         .unwrap();
 
